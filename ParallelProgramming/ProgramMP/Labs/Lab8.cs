@@ -5,10 +5,12 @@ namespace ProgramMP.Labs;
 public class Lab8 : ILab
 {
     public string Name { get; set; }
+    private Random rand;
     
     public Lab8(string name)
     {
         Name = name;
+        rand = new Random();
     }
     
     public void Start()
@@ -52,8 +54,9 @@ public class Lab8 : ILab
         {
             for (int j = 0; j < n; j++)
             {
-                Console.Write($"Введите элемент [{i + 1}, {j + 1}]: ");
-                matrix[i, j] = int.Parse(Console.ReadLine() ?? "0"); // Примерные значения элементов матрицы
+                // Console.Write($"Введите элемент [{i + 1}, {j + 1}]: ");
+                // matrix[i, j] = int.Parse(Console.ReadLine() ?? "0"); // Примерные значения элементов матрицы
+                matrix[i, j] = rand.Next(1, 15);
             }
         }
         return matrix;
@@ -62,9 +65,14 @@ public class Lab8 : ILab
     private int[,] MultiplyMatricesParallel(int[,] A, int[,] B, int n)
     {
         var C = new int[n, n];
+        
+        int numProcs = 1;
+        object locker = new object();
 
         Parallel.For(0, n, i =>
         {
+            Console.WriteLine($"Count {numProcs++}");
+            
             for (int j = 0; j < n; j++)
             {
                 C[i, j] = 0;
@@ -84,9 +92,10 @@ public class Lab8 : ILab
         {
             for (int j = 0; j < n; j++)
             {
-                Console.Write($"{matrix[i, j]} ");
+                // Console.Write($"{matrix[i, j]} ");
+                // matrix[i, j] = rand.Next(1, 15);
             }
-            Console.WriteLine();
+            // Console.WriteLine();
         }
     }
 }
